@@ -1,0 +1,14 @@
+{
+  "name": "Add to Chunks",
+  "short_name": "Chunks",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "share_target": {
+    "action": "/index.html",
+    "method": "GET",
+    "params": {
+      "text": "text",
+      "url": "url"
+    }
+  }
+}
