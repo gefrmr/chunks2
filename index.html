@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Verwijzing naar je manifest -->
+    <!-- Verwijzing naar manifest.json in de root -->
     <link rel="manifest" href="manifest.json">
 
     <title>Add to Chunks</title>
@@ -67,6 +67,12 @@ async function handleShare() {
 handleShare();
 </script>
 
+<!-- Service worker registratie (vereist voor WebAPK) -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/chunks2/sw.js");
+}
+</script>
+
 </body>
 </html>
-
