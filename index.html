@@ -20,6 +20,16 @@
             font-size: 1.4rem;
             color: #333;
         }
+        #install {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +39,12 @@
 
 <div class="status" id="status">Wachten op gedeelde tekst…</div>
 
+<button id="install" onclick="installPWA()">Installeer Add to Chunks</button>
+
 <script>
+/* -------------------------------
+   SHARE TARGET HANDLING (POST)
+--------------------------------*/
 async function handleShare() {
     const params = new URLSearchParams(window.location.search);
 
@@ -67,10 +82,33 @@ async function handleShare() {
 handleShare();
 </script>
 
-<!-- Service worker registratie (vereist voor WebAPK) -->
 <script>
+/* -------------------------------
+   SERVICE WORKER REGISTRATIE
+--------------------------------*/
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/chunks2/sw.js");
+  navigator.serviceWorker.register("./sw.js");
+}
+</script>
+
+<script>
+/* -------------------------------
+   INSTALL PROMPT (vereist voor WebAPK)
+--------------------------------*/
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById("install").style.display = "inline-block";
+});
+
+async function installPWA() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById("install").style.display = "none";
 }
 </script>
 
